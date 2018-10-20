@@ -188,11 +188,7 @@ input,
 button,
 select,
 optgroup,
-textarea {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit; }
+
 
 button,
 input {
@@ -226,9 +222,7 @@ input[type="datetime-local"],
 input[type="month"] {
   -webkit-appearance: listbox; }
 
-textarea {
-  overflow: auto;
-  resize: vertical; }
+
 
 fieldset {
   min-width: 0;
@@ -499,11 +493,7 @@ input,
 button,
 select,
 optgroup,
-textarea {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit; }
+
 
 button,
 input {
@@ -537,9 +527,7 @@ input[type="datetime-local"],
 input[type="month"] {
   -webkit-appearance: listbox; }
 
-textarea {
-  overflow: auto;
-  resize: vertical; }
+
 
 fieldset {
   min-width: 0;
@@ -9154,21 +9142,9 @@ select, select.form-control {
   .form-group .bmd-label-static {
     top: -10px; }
 
-textarea {
-  height: auto !important;
-  resize: none;
-  line-height: 1.42857 !important; }
 
-.form-group input[type=file] {
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; }
+
+
 
 .form-newsletter .input-group,
 .form-newsletter .form-group {
@@ -12550,8 +12526,7 @@ Copyright (c) 2015 Daniel Eden
 
 /*          Changes for small display      */
 @media (max-width: 991px) {
-  .form-group textarea {
-    padding-top: 15px; }
+
   .nav-open .menu-on-left .main-panel {
     position: initial; }
   html,
