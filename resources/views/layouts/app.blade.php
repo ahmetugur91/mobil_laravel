@@ -34,14 +34,14 @@
                 </li>
 
 
-                <li class="nav-item {{ Route::currentRouteNamed('number') ? 'active' : '' }} ">
+                <li class="nav-item {{ Route::currentRouteNamed('number.index') ? 'active' : '' }} ">
                     <a class="nav-link" href="{{route("number")}}">
                         <i class="material-icons">dashboard</i>
                         <p>Telefon Numaraları</p>
                     </a>
                 </li>
 
-                <li class="nav-item {{ Route::currentRouteNamed('process') ? 'active' : '' }} ">
+                <li class="nav-item {{ Route::currentRouteNamed('process.index') ? 'active' : '' }} ">
                     <a class="nav-link" href="{{route("process")}}">
                         <i class="material-icons">dashboard</i>
                         <p>İşlemler</p>
