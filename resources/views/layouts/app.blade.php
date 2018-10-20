@@ -35,14 +35,14 @@
 
 
                 <li class="nav-item {{ Route::currentRouteNamed('number.index') ? 'active' : '' }} ">
-                    <a class="nav-link" href="{{route("number")}}">
+                    <a class="nav-link" href="{{route("number.index")}}">
                         <i class="material-icons">dashboard</i>
                         <p>Telefon Numaraları</p>
                     </a>
                 </li>
 
                 <li class="nav-item {{ Route::currentRouteNamed('process.index') ? 'active' : '' }} ">
-                    <a class="nav-link" href="{{route("process")}}">
+                    <a class="nav-link" href="{{route("process.index")}}">
                         <i class="material-icons">dashboard</i>
                         <p>İşlemler</p>
                     </a>
