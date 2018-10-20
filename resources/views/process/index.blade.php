@@ -29,7 +29,7 @@
                             <tr>
                                 <td>{{$process->name}}</td>
                                 <td>{{$process->message}}</td>
-                                <td>{{$process->sended}}</td>
+                                <td>{{$process->processNumbers()->count()}}</td>
                                 <td>{{$process->sended}}</td>
                                 <td>{{$process->active}}</td>
                                 <td>{{$process->created_at}}</td>

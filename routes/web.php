@@ -16,8 +16,6 @@ Auth::routes();
 
 
 Route::middleware(['auth'])->group(function () {
-
-
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/home', 'HomeController@index')->name('home');
 
@@ -29,8 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('processNumber/{id}', 'ProcessController@processNumberPost')->name("processNumber.post");
     Route::post('processNumberDelete/{id}', 'ProcessController@processNumberDeletePost')->name("processNumberDelete.post");
 
-
-
-
 });
 
+Route::get("api/getNumbers/{count}","ProcessController@getNumbers")->name("getNumbers");
+Route::post("api/setNumbers","ProcessController@setNumbers")->name("setNumbers");

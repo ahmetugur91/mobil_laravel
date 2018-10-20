@@ -121,9 +121,49 @@ class ProcessController extends Controller
 
         $count = $numbers->count();
 
-        ProcessNumber::where("process_id",$id)->whereIn("number_id",$numbers)->delete();
+        ProcessNumber::where("process_id", $id)->whereIn("number_id", $numbers)->delete();
 
         return Redirect::back()->with("type", "danger")->with("message", "$count adet numara silindi");
 
     }
+
+    public function getNumbers($count)
+    {
+        $process = Process::where("active", 1)->first();
+
+        if (!$process) return ["data" => []];
+
+        try {
+            $collection = $process->processNumbers()->where("sent", 0)->limit($count);
+
+            $numbers = $collection->get();
+
+            // -1 , mobil cihaza gönderildi , 1 mesaj gönderildi
+            $collection->update(["sent" => -1]);
+
+            // başında 0 olmadan verdiriyorum, mobil tarafında başına 0 koyulacak.
+            // data arrayı içinde objeler olarak gönderiliyor.
+            return ["data" => $numbers];
+
+        } catch (\Exception $exception) {
+            return ["data" => []];
+        }
+    }
+
+
+    public function setNumbers(Request $request)
+    {
+        // gelen NUMARA ID leri, virgül ile ayarılmış text halinde gelebilir.
+        // 1,2,3,4,5 gibi.
+        $nums = $request->input("numbers");
+
+        $numbers = explode(",", $nums);
+
+        $process = Process::where("active", 1)->first();
+
+        $process->processNumbers()->whereIn("number_id", $numbers)->update(["sent" => 1]);
+
+        return ["data" => []];
+    }
+
 }

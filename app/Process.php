@@ -15,4 +15,9 @@ class Process extends Model
         return $this->hasMany(Number::class);
     }
 
+    public function processNumbers()
+    {
+        return $this->hasMany(ProcessNumber::class);
+    }
+
 }
