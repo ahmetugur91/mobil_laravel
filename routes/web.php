@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('number', 'NumberController');
     Route::resource('process', 'ProcessController');
+    Route::get('changeActive/{id}', 'ProcessController@changeActive')->name("process.changeActive");
 
     Route::get('processNumber/{id}', 'ProcessController@processNumber')->name("processNumber");
     Route::post('processNumber/{id}', 'ProcessController@processNumberPost')->name("processNumber.post");

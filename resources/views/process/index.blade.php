@@ -31,10 +31,11 @@
                                 <td>{{$process->message}}</td>
                                 <td>{{$process->processNumbers()->count()}}</td>
                                 <td>{{$process->sended}}</td>
-                                <td>{{$process->active}}</td>
+                                <td>{{$process->active ? "Aktif":"Pasif"}}</td>
                                 <td>{{$process->created_at}}</td>
                                 <td>
                                     <div class="btn-group">
+                                        <a href="{{route("process.changeActive",$process)}}" class="btn @if($process->active) btn-warning @else btn-success @endif  btn-sm">@if($process->active) Pasif Et @else Aktif Et @endif</a>
                                         <a href="{{route("processNumber",$process)}}" class="btn btn-info  btn-sm">Numara Tanımla</a>
                                         <form action="{{route("process.destroy",$process)}}" method="post">
                                             {{csrf_field()}}

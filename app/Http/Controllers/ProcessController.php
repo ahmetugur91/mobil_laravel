@@ -42,6 +42,14 @@ class ProcessController extends Controller
 
     }
 
+    public function changeActive($id)
+    {
+        $process = Process::findOrFail($id);
+        $process->active = !$process->active;
+        $process->save();
+        return Redirect::back()->with("type", "success")->with("message", "Güncellendi");
+    }
+
 
     public function processNumber($id)
     {
