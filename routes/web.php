@@ -25,6 +25,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('number', 'NumberController');
     Route::resource('process', 'ProcessController');
 
+    Route::get('processNumber/{id}', 'ProcessController@processNumber')->name("processNumber");
+    Route::post('processNumber/{id}', 'ProcessController@processNumberPost')->name("processNumber.post");
+    Route::post('processNumberDelete/{id}', 'ProcessController@processNumberDeletePost')->name("processNumberDelete.post");
+
 
 
 
