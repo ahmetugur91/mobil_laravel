@@ -32,6 +32,11 @@ class NumberController extends Controller
         return view("number.create");
     }
 
+    public function destroyAll()
+    {
+        Number::where("id",">",0)->delete();
+        return Redirect::back()->with("type", "success")->with("message", "Silindi");
+    }
 
     public function store(Request $request)
     {
@@ -58,7 +63,6 @@ class NumberController extends Controller
             foreach ($seperated as $number) {
                 $number = $this->clear($number);
 
-
                 if (strlen($number) != 10) {
                     $templateCnt++;
                     continue;
@@ -66,13 +70,14 @@ class NumberController extends Controller
 
                 $first2 = substr($number, 0, 2);
 
-                if (!($first2 == "53" or $first2 == "54" or $first2 == "55")) {
+                if (!($first2 == "53" or $first2 == "54" or $first2 == "55" or $first2 == "50")) {
+                    //return $number;
                     $templateCnt++;
                     continue;
                 }
 
                 try {
-                    Number::create(["number" => $number]);
+                    Number::create(["number" => "0" . $number]);
                 } catch (\Exception $exception) {
                     $errorCnt++;
                 }
@@ -93,12 +98,19 @@ class NumberController extends Controller
 
     private function clear($number)
     {
+
         $number = trim($number);
         $number = str_replace("\r\n", "", $number);
         $number = str_replace("\n", "", $number);
         $number = str_replace("\n", "", $number);
         $number = str_replace(" ", "", $number);
         $number = str_replace("+90", "", $number);
+
+        if(strlen($number) < 2) return $number;
+
+        if($number[0] == "0"){
+            $number = substr($number,1,strlen($number));
+        }
 
         return $number;
     }

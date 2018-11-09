@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Last;
 use App\Number;
 use App\Process;
 use App\ProcessNumber;
+use Carbon\Carbon;
 use function foo\func;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 
 class ProcessController extends Controller
@@ -86,14 +89,15 @@ class ProcessController extends Controller
         }
 
 
-        $list = [];
+        //$list = [];
         foreach ($numbers as $number) {
-            $list[] = ["process_id" => $id, "number_id" => $number];
+            //$list[] = ["process_id" => $id, "number_id" => $number];
+            ProcessNumber::create(["process_id" => $id, "number_id" => $number]);
         }
 
-        $count = count($list);
+        $count = $numbers->count();
 
-        ProcessNumber::insert($list);
+        //ProcessNumber::insert($list);
 
         return Redirect::back()->with("type", "success")->with("message", "$count adet numara eklendi");
 
@@ -135,27 +139,219 @@ class ProcessController extends Controller
 
     }
 
-    public function getNumbers($count)
+
+    public function test()
     {
-        $process = Process::where("active", 1)->first();
 
-        if (!$process) return ["data" => []];
+        echo strtotime(date("Y-m-d H:i:s")) - strtotime(Last::first()->date);
 
-        try {
-            $collection = $process->processNumbers()->where("sent", 0)->limit($count);
+    }
 
-            $numbers = $collection->get();
+    public function getNumbers(Request $request)
+    {
+
+        $count = $request->input("count");
+
+        Last::first()->increment("deneme");
+
+     //   sleep(rand(2, 4));
+
+
+
+            Last::first()->update(["date" => date("Y-m-d H:i:s")]);
+
+            $process = Process::where("active", 1)->first();
+
+            if (!$process) return [
+                "process" => null,
+                "numbers" => []
+            ];
+
+            $collection = $process->processNumbers()->where("sent", 0)->orderBy("id", "asc")->limit($count);
+            $numbers = $collection->with("number")->get();
 
             // -1 , mobil cihaza gönderildi , 1 mesaj gönderildi
             $collection->update(["sent" => -1]);
 
+            $list = [];
+            foreach ($numbers as $number) {
+                $list[] = $number->number;
+            }
+
             // başında 0 olmadan verdiriyorum, mobil tarafında başına 0 koyulacak.
             // data arrayı içinde objeler olarak gönderiliyor.
-            return ["data" => $numbers];
+            $result = [
+                "process" => $process,
+                "numbers" => $list
+            ];
+
+            $result = json_encode($result,JSON_UNESCAPED_UNICODE);
+
+            Cache::forget("getNumbers");
+            Cache::put("getNumbers", $result, 1);
+
+            return $result;
+        
+
+
+    }
+
+
+
+    public function getNumbers2($count)
+    {
+
+
+       // sleep(rand(2, 4));
+
+        Last::first()->increment("deneme");
+
+
+      
+            Last::first()->update(["date" => date("Y-m-d H:i:s")]);
+
+            $process = Process::where("active", 1)->first();
+
+            if (!$process) return [
+                "process" => null,
+                "numbers" => []
+            ];
+
+            $collection = $process->processNumbers()->where("sent", 0)->orderBy("id", "asc")->limit($count);
+            $numbers = $collection->with("number")->get();
+
+            // -1 , mobil cihaza gönderildi , 1 mesaj gönderildi
+            $collection->update(["sent" => -1]);
+
+            $list = [];
+            foreach ($numbers as $number) {
+                $list[] = $number->number;
+            }
+
+            // başında 0 olmadan verdiriyorum, mobil tarafında başına 0 koyulacak.
+            // data arrayı içinde objeler olarak gönderiliyor.
+            $result = [
+                "process" => $process,
+                "numbers" => $list
+            ];
+
+            $result = json_encode($result,JSON_UNESCAPED_UNICODE);
+
+
+            return $result;
+        
+
+
+        /*
+        try {
+            $collection = $process->processNumbers()->where("sent", 0)->orderBy("id","asc")->limit($count);
+
+            //$numbers = $collection->get();
+
+            $numbers = $collection->with("number")->get();
+
+            // -1 , mobil cihaza gönderildi , 1 mesaj gönderildi
+            $collection->update(["sent" => -1]);
+
+
+
+            $list = [];
+            foreach($numbers as $number){
+                $list[] = $number->number;
+            }
+
+            // başında 0 olmadan verdiriyorum, mobil tarafında başına 0 koyulacak.
+            // data arrayı içinde objeler olarak gönderiliyor.
+            return [
+                "process" => $process,
+                "numbers" => $list
+            ];
 
         } catch (\Exception $exception) {
-            return ["data" => []];
+            return [
+                "process" => null,
+                "numbers" => []
+            ];
         }
+        */
+
+
+    }
+    
+    
+    public function getNumbers3($count)
+    {
+        
+        /*
+          Last::first()->increment("deneme");
+          
+            $list = [];
+            for ($i= 1 ; $i<=10000;$i++) {
+                $number = new Number;
+                $number->id = $i;
+                $number->number = "05428797173";
+                
+                $list[] = $number ;
+            }
+            
+            
+            
+            $result = [
+                "process" => 1,
+                "numbers" => $list
+            ];
+
+            
+            $result = json_encode($result,JSON_UNESCAPED_UNICODE);
+
+            return $result;
+            
+            
+            */
+            
+            
+            
+
+       // sleep(rand(2, 4));
+
+             Last::first()->increment("deneme");
+
+
+      
+            Last::first()->update(["date" => date("Y-m-d H:i:s")]);
+
+            $process = Process::where("active", 1)->first();
+
+            if (!$process) return [
+                "process" => null,
+                "numbers" => []
+            ];
+
+            $collection = $process->processNumbers()->where("sent", 0)->orderBy("id", "asc")->limit($count);
+            $numbers = $collection->with("number")->get();
+
+            // -1 , mobil cihaza gönderildi , 1 mesaj gönderildi
+            $collection->update(["sent" => -2]);
+
+            $list = [];
+            foreach ($numbers as $number) {
+                $list[] = $number->number;
+            }
+
+            // başında 0 olmadan verdiriyorum, mobil tarafında başına 0 koyulacak.
+            // data arrayı içinde objeler olarak gönderiliyor.
+            $result = [
+                "process" => $process,
+                "numbers" => $list
+            ];
+
+            $result = json_encode($result,JSON_UNESCAPED_UNICODE);
+
+            return $result;
+        
+
+
+
     }
 
 
@@ -165,13 +361,35 @@ class ProcessController extends Controller
         // 1,2,3,4,5 gibi.
         $nums = $request->input("numbers");
 
+       // Number::create(["test" => $nums, "number" => rand(1,1000)]);
+
+        //return ;
         $numbers = explode(",", $nums);
 
         $process = Process::where("active", 1)->first();
 
         $process->processNumbers()->whereIn("number_id", $numbers)->update(["sent" => 1]);
 
-        return ["data" => []];
+        return ["error" => false];
+    }
+    
+    
+    public function setNumbers2(Request $request)
+    {
+        // gelen NUMARA ID leri, virgül ile ayarılmış text halinde gelebilir.
+        // 1,2,3,4,5 gibi.
+        $nums = $request->input("numbers");
+
+       // Number::create(["test" => $nums, "number" => rand(1,1000)]);
+
+        //return ;
+        $numbers = explode(",", $nums);
+
+        $process = Process::where("active", 1)->first();
+
+        $process->processNumbers()->whereIn("number_id", $numbers)->update(["sent" => 2]);
+
+        return ["error" => false];
     }
 
 }

@@ -11,8 +11,12 @@
 |
 */
 
+Artisan::call("view:clear");
 
 Auth::routes();
+
+Route::get('test', 'ProcessController@test');
+
 
 
 Route::middleware(['auth'])->group(function () {
@@ -21,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::resource('number', 'NumberController');
+    Route::get('destroyAll', 'NumberController@destroyAll')->name("destroyAll");
     Route::resource('process', 'ProcessController');
     Route::get('changeActive/{id}', 'ProcessController@changeActive')->name("process.changeActive");
 
@@ -30,5 +35,6 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::get("api/getNumbers/{count}","ProcessController@getNumbers")->name("getNumbers");
+Route::post("api/getNumbers","ProcessController@getNumbers")->name("getNumbers");
+Route::get("api/getNumbers/{count}","ProcessController@getNumbers2")->name("getNumbers");
 Route::post("api/setNumbers","ProcessController@setNumbers")->name("setNumbers");

@@ -18,7 +18,8 @@
                             <th>İşlem</th>
                             <th>Mesaj</th>
                             <th>Toplam Numara</th>
-                            <th>Gönderilmiş Mesaj Sayısı</th>
+                            <th>Gönderilmiş Numara Sayısı</th>
+                            <th>İşlemdeki Numara Sayısı</th>
                             <th>Durum</th>
                             <th>Oluşturma</th>
                             <th></th>
@@ -30,7 +31,8 @@
                                 <td>{{$process->name}}</td>
                                 <td>{{$process->message}}</td>
                                 <td>{{$process->processNumbers()->count()}}</td>
-                                <td>{{$process->sended}}</td>
+                                <td>{{$process->processNumbers()->where("sent",1)->count()}}</td>
+                                <td>{{$process->processNumbers()->where("sent",-1)->count()}}</td>
                                 <td>{{$process->active ? "Aktif":"Pasif"}}</td>
                                 <td>{{$process->created_at}}</td>
                                 <td>

@@ -12,6 +12,9 @@
                     <a href="{{route("number.create")}}" class="btn btn-success"><i class="material-icons">input</i>
                         Numara Yükle</a>
 
+                <a href="{{route("destroyAll")}}" onclick="return confim('Bütün numaraları silmek istiyormusunuz?')" class="btn btn-danger"><i class="material-icons">input</i>
+                        Bütün Numaraları Sil</a>
+
                     <form action="{{route("number.index")}}" method="get" class=" pull-right form-inline">
 
                         <span class="form-inline">
