@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('processNumber/{id}', 'ProcessController@processNumberPost')->name("processNumber.post");
     Route::post('processNumberDelete/{id}', 'ProcessController@processNumberDeletePost')->name("processNumberDelete.post");
 
+    Route::get('/export', 'NumberController@export')->name('number.export');
+
 });
 
 Route::post("api/getNumbers","ProcessController@getNumbers")->name("getNumbers");

@@ -12,6 +12,9 @@
                     <a href="{{route("number.create")}}" class="btn btn-success"><i class="material-icons">input</i>
                         Numara Yükle</a>
 
+                    <a href="{{route("number.export")}}" class="btn btn-primary"><i class="material-icons">input</i>
+                        Numaraları Dışarı AKtar</a>
+
                 <a href="{{route("destroyAll")}}" onclick="return confim('Bütün numaraları silmek istiyormusunuz?')" class="btn btn-danger"><i class="material-icons">input</i>
                         Bütün Numaraları Sil</a>
 

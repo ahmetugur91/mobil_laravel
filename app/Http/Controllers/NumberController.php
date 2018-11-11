@@ -34,7 +34,7 @@ class NumberController extends Controller
 
     public function destroyAll()
     {
-        Number::where("id",">",0)->delete();
+        Number::where("id", ">", 0)->delete();
         return Redirect::back()->with("type", "success")->with("message", "Silindi");
     }
 
@@ -52,7 +52,7 @@ class NumberController extends Controller
         $list = $request->input("list");
 
         // eğer dosya yüklenmiş ise
-        if($request->hasFile("file")){
+        if ($request->hasFile("file")) {
             $list = File::get($request->file("file"));
         }
 
@@ -106,19 +106,39 @@ class NumberController extends Controller
         $number = str_replace(" ", "", $number);
         $number = str_replace("+90", "", $number);
 
-        if(strlen($number) < 2) return $number;
+        if (strlen($number) < 2) return $number;
 
-        if($number[0] == "0"){
-            $number = substr($number,1,strlen($number));
+        if ($number[0] == "0") {
+            $number = substr($number, 1, strlen($number));
         }
 
         return $number;
     }
 
 
-    public  function destroy($id)
+    public function destroy($id)
     {
         Number::find($id)->delete();
         return Redirect::back()->with("type", "success")->with("message", "Silindi");
     }
+
+
+    public function export()
+    {
+        $date = date("d-m-Y_H-i-s");
+
+        Number::chunk(1000, function ($numbers) use ($date) {
+            foreach ($numbers as $number) {
+                $data = $number->number;
+                file_put_contents(public_path() .  "/data_$date.txt", $data . "\n", FILE_APPEND);
+            }
+        });
+
+        $headers = array(
+            'Content-Type: text/plain',
+        );
+
+        return response()->download(public_path() .  "/data_$date.txt", "data_$date.txt", $headers);
+    }
+
 }
