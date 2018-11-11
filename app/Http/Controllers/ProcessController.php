@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class ProcessController extends Controller
@@ -92,7 +93,9 @@ class ProcessController extends Controller
         //$list = [];
         foreach ($numbers as $number) {
             //$list[] = ["process_id" => $id, "number_id" => $number];
-            ProcessNumber::create(["process_id" => $id, "number_id" => $number]);
+            //ProcessNumber::create(["process_id" => $id, "number_id" => $number]);
+
+            DB::insert("insert into process_numbers (process_id,number_id,sent) values ($id,$number,0)");
         }
 
         $count = $numbers->count();

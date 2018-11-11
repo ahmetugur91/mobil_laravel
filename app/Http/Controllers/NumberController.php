@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Number;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
@@ -63,6 +64,8 @@ class NumberController extends Controller
             foreach ($seperated as $number) {
                 $number = $this->clear($number);
 
+                if($number == "") continue;
+
                 if (strlen($number) != 10) {
                     $templateCnt++;
                     continue;
@@ -77,7 +80,8 @@ class NumberController extends Controller
                 }
 
                 try {
-                    Number::create(["number" => "0" . $number]);
+                 //   Number::create(["number" => "0" . $number]);
+                    DB::insert("insert into numbers (number) values ('0' . $number)");
                 } catch (\Exception $exception) {
                     $errorCnt++;
                 }
