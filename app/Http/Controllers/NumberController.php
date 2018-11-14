@@ -60,6 +60,8 @@ class NumberController extends Controller
         $seperated = explode("\n", $list);
         $total = count($seperated);
 
+        $numberList = [];
+
         if ($total > 0) {
             foreach ($seperated as $number) {
                 $number = $this->clear($number);
@@ -79,13 +81,29 @@ class NumberController extends Controller
                     continue;
                 }
 
+                $numberList[] = $number ;
+
+                /*
                 try {
+
                  //   Number::create(["number" => "0" . $number]);
-                    DB::insert("insert into numbers (number) values ('0' . $number)");
+                    DB::insert("insert into numbers (number) values ('0$number')");
                 } catch (\Exception $exception) {
                     $errorCnt++;
                 }
+                */
 
+            }
+
+            unset($seperated);
+
+
+            foreach($numberList as $number){
+                try {
+                    DB::insert("insert into numbers (number) values ('0$number')");
+                } catch (\Exception $exception) {
+                    $errorCnt++;
+                }
             }
 
 

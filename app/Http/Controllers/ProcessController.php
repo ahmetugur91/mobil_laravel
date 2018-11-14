@@ -90,13 +90,24 @@ class ProcessController extends Controller
         }
 
 
-        //$list = [];
+        $c = 0;
+        $list = [];
         foreach ($numbers as $number) {
             //$list[] = ["process_id" => $id, "number_id" => $number];
             //ProcessNumber::create(["process_id" => $id, "number_id" => $number]);
 
-            DB::insert("insert into process_numbers (process_id,number_id,sent) values ($id,$number,0)");
+            $c += 1;
+            $list[] = ["process_id" => $id, "number_id" => $number];
+
+            if($c % 500 == 0){
+                ProcessNumber::insert($list);
+                $list = [];
+            }
+
+            //DB::insert("insert into process_numbers (process_id,number_id,sent) values ($id,$number,0)");
         }
+
+        if(count($list) > 0) ProcessNumber::insert($list);
 
         $count = $numbers->count();
 
